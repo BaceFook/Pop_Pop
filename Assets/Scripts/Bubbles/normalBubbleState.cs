@@ -13,7 +13,7 @@ public class normalBubbleState : MonoBehaviour {
 			return;
 		}
 
-		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+		SpriteRenderer renderer = transform.FindChild ("bubble").GetComponent<SpriteRenderer>();
 		renderer.sprite = poppedSprite;
 		isPopped = true;
 	}
