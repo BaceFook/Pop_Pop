@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333b95a8e62c06e4eb3483aefdc31a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubblesX: 16
-  bubblesY: 16
+  bubblesX: 10
+  bubblesY: 5
   normalBubble: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
 --- !u!4 &383516125
 Transform:
