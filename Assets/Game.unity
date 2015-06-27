@@ -97,7 +97,7 @@ GameObject:
   - 4: {fileID: 383516125}
   - 114: {fileID: 383516124}
   m_Layer: 0
-  m_Name: GameInitiator
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubblesX: 10
   bubblesY: 5
+  lockedNum: 10
+  poppedNum: 10
   normalBubble: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
 --- !u!4 &383516125
 Transform:

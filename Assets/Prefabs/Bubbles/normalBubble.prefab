@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPopped: 0
+  isLocked: 0
+  isKey: 0
   normalSprite: {fileID: 21300000, guid: 72fc48bb8c287b241bfc57873ffedc71, type: 3}
   poppedSprite: {fileID: 21300000, guid: 8b1943f41099481418328953368be24a, type: 3}
 --- !u!212 &21256344
@@ -163,7 +165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 42b27a28079502a47a5d7654e9d5d49c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
