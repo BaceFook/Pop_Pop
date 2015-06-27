@@ -9,7 +9,7 @@ public class normalBubbleState : MonoBehaviour {
 
 	void OnMouseDown(){
 		if (isPopped) {
-			Handheld.Vibrate ();
+			//Handheld.Vibrate ();
 			return;
 		}
 
