@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class normalBubbleState : MonoBehaviour {
+public class bubbleState : MonoBehaviour {
 	public bool isPopped = false;
 	public bool isLocked = false;
 	public bool isKey = false;
