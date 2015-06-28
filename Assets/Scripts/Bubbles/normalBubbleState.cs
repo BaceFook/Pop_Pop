@@ -11,7 +11,6 @@ public class normalBubbleState : MonoBehaviour {
 
 	public Sprite[] normalSprites;
 	public Sprite[] poppedSprites;
-	public AudioClip poppingSfx;
 
 	private SpriteRenderer highlightRenderer;
 	private float highlightVal = 0;
@@ -58,7 +57,6 @@ public class normalBubbleState : MonoBehaviour {
 
 	void toNormalBubble(){
 		myRenderer.sprite = poppedSprites [Random.Range (0, poppedSprites.Length)];
-		AudioSource.PlayClipAtPoint(poppingSfx, Camera.main.transform.position);
 		isPopped = true;
 	}
 
