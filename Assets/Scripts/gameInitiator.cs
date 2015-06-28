@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class gameInitiator : MonoBehaviour {
 
 	private int groupNum = 0;
+	private GameObject bubblesParent;
 
 	public int bubblesX = 10;
 	public int bubblesY = 5;
@@ -23,6 +24,7 @@ public class gameInitiator : MonoBehaviour {
 
 	void Start () {
 
+		bubblesParent = GameObject.Find ("BubblesParent");
 		bubbleArray = new Transform[bubblesX,bubblesY];
 
 		float startX = -1.0f * (bubblesX-1);
@@ -32,10 +34,13 @@ public class gameInitiator : MonoBehaviour {
 		for (int i = 0; i < bubblesX; i++) {
 			for (int j = 0; j < bubblesY; j++) {
 				bubbleArray[i,j] = (Transform)Instantiate (normalBubble, new Vector3(startX + 2.0f * i, startY + 2.0f * j, 0), Quaternion.identity);
+				bubbleArray[i,j].parent = bubblesParent.GetComponent<Transform>();
 				availableBubbles.Add(i + bubblesX * j);
 			}
 		}
 
+		// Use random seed to generate same results
+		// Random.seed = 0;
 		for (int i = 0; i < poppedNum; i++) {
 			tmp = Random.Range (0, availableBubbles.Count);
 			tmp = availableBubbles[tmp];
@@ -61,7 +66,6 @@ public class gameInitiator : MonoBehaviour {
 		if (lockedBubbles.Count == 0)
 			return;
 		tmp = lockedBubbles [0];
-		Debug.Log (tmp);
 		lockedBubbles.RemoveAt (0);
 		bubbleArray[(tmp % bubblesX), Mathf.FloorToInt(tmp / bubblesX)].BroadcastMessage("unlockBubble");
 		bubbleArray[(tmp % bubblesX), Mathf.FloorToInt(tmp / bubblesX)].BroadcastMessage("startWithKey");
