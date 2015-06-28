@@ -60,6 +60,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 468584}
   - 212: {fileID: 21278088}
+  - 114: {fileID: 11435262}
   m_Layer: 0
   m_Name: lock
   m_TagString: Untagged
@@ -200,6 +201,21 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &11435262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b027abcdb7ef10489d8a3dc5a6647ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockSprites:
+  - {fileID: 21300000, guid: 22126dd6928b0234187a3aa2286b9a91, type: 3}
+  - {fileID: 21300000, guid: 341c91712b3c3294fba92143ce337d18, type: 3}
+  - {fileID: 21300000, guid: 3597c55a78da0d446b396a5d61dd9439, type: 3}
 --- !u!114 &11464022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,6 +348,10 @@ Prefab:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: lockSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_SortingOrder
       value: 20
       objectReference: {fileID: 0}
@@ -355,6 +375,21 @@ Prefab:
       propertyPath: popSounds.Array.data[3]
       value: 
       objectReference: {fileID: 8300000, guid: 95b126b36d5d53945ac90ffe8966063d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: lockSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 22126dd6928b0234187a3aa2286b9a91,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: lockSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 341c91712b3c3294fba92143ce337d18,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: lockSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3597c55a78da0d446b396a5d61dd9439,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 159878}
