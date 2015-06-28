@@ -191,4 +191,34 @@ public class gameInitiator : MonoBehaviour {
 			bubbleArray[i].GetComponent<normalBubbleState>().highlightBubble();
 		}
 	}
+
+	public void popped(int bubbleId){
+		Debug.Log (bubbleId);
+		tmp = Mathf.FloorToInt (bubbleId / bubblesX);
+		Debug.Log (tmp);
+		for (int i = 0; i <= bubblesX; i++) {
+			if (i == bubblesX){
+				for (int j = 0; j < bubblesX; j++) {
+					bubbleArray[tmp * bubblesX + j].GetComponent<normalBubbleState>().lowlightBubble();
+				}
+				break;
+			}
+
+			if (!bubbleArray[tmp * bubblesX + i].GetComponent<normalBubbleState>().isPopped)
+				break;
+		}
+
+		tmp = bubbleId % bubblesX;
+		for (int i = 0; i <= bubblesY; i++) {
+			if (i == bubblesY){
+				for (int j = 0; j < bubblesY; j++) {
+					bubbleArray[tmp + j * bubblesX].GetComponent<normalBubbleState>().lowlightBubble();
+				}
+				break;
+			}
+			
+			if (!bubbleArray[tmp + i * bubblesX].GetComponent<normalBubbleState>().isPopped)
+				break;
+		}
+	}
 }

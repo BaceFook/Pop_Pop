@@ -14,6 +14,7 @@ public class normalBubbleState : MonoBehaviour {
 
 	private SpriteRenderer highlightRenderer;
 	private float highlightVal = 0;
+	private float lowlightVal = 0;
 
 	private SpriteRenderer myRenderer;
 
@@ -29,8 +30,13 @@ public class normalBubbleState : MonoBehaviour {
 
 	void Update(){
 		if (highlightVal > 0.0f) {
-			highlightVal = Mathf.Max (highlightVal - Time.deltaTime / 2.0f, 0.0f);
+			highlightVal = Mathf.Max (highlightVal - Time.deltaTime / 10.0f, 0.0f);
 			highlightRenderer.color = new Color( 1, 1, 1, highlightVal);
+		}
+
+		if (lowlightVal > 0.0f) {
+			lowlightVal = Mathf.Max (lowlightVal - Time.deltaTime / 5.0f, 0.0f);
+			myRenderer.color = new Color( 1.0f - lowlightVal, 1.0f - lowlightVal, 1.0f - lowlightVal, 1);
 		}
 	}
 
@@ -44,10 +50,13 @@ public class normalBubbleState : MonoBehaviour {
 			return;
 		}
 		isPopped = true;
+		highlightVal = 0.01f;
 		if (isKey) {
 			gameInitiator.Instance.unlockNextBubble();
 			isKey = false;
 		}
+
+		gameInitiator.Instance.popped (id);
 
 		if (hasPowerup)
 			BroadcastMessage ("TriggerPowerup", id);
@@ -87,7 +96,11 @@ public class normalBubbleState : MonoBehaviour {
 	public void highlightBubble(){
 		if (isPopped)
 			return;
-		highlightVal = 0.5f;
+		highlightVal = 0.4f;
+	}
+	
+	public void lowlightBubble(){
+		lowlightVal = 0.4f;
 	}
 
 }

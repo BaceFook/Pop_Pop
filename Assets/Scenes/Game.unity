@@ -119,10 +119,10 @@ MonoBehaviour:
   bubblesX: 10
   bubblesY: 5
   lockedNum: 10
-  poppedNum: 10
-  connectedPairs: 5
+  poppedNum: 20
+  connectedPairs: 0
   markUnpoppedNum: 5
-  splashNum: 5
+  splashNum: 10
   normalBubble: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
   markUnpoppedPrefab: {fileID: 435068, guid: 723a9b5c82ceb354fb81e972c3c5919a, type: 2}
   splashPrefab: {fileID: 400082, guid: 4bac2ace755862f43a550cf64c3ba105, type: 2}
