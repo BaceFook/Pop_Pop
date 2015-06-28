@@ -34,28 +34,32 @@ public class normalBubbleState : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
+		popBubble ();
+	}
+
+	public void popBubble(){
 		if (isPopped || isLocked) {
 			//Handheld.Vibrate ();
 			return;
 		}
-
 		if (isKey) {
 			gameInitiator.Instance.unlockNextBubble();
 			isKey = false;
 		}
 
 		if (hasPowerup)
-			BroadcastMessage ("TriggerPowerup");
-		popBubble ();
+			BroadcastMessage ("TriggerPowerup", id);
+		gameInitiator.Instance.BroadcastMessage ("playPop");
+		toNormalBubble ();
 	}
 
-	void popBubble(){
+	void toNormalBubble(){
 		myRenderer.sprite = poppedSprites [Random.Range (0, poppedSprites.Length)];
 		isPopped = true;
 	}
 
 	void startPopped(){
-		popBubble ();
+		toNormalBubble ();
 	}
 
 	void lockBubble(){

@@ -15,9 +15,11 @@ public class gameInitiator : MonoBehaviour {
 
 	public int connectedPairs = 5;
 	public int markUnpoppedNum = 5;
+	public int splashNum = 5;
 
 	public Transform normalBubble;
 	public Transform markUnpoppedPrefab;
+	public Transform splashPrefab;
 	public Transform[] bubbleArray;
 
 	List<int>normalBubbles = new List<int>();
@@ -56,8 +58,10 @@ public class gameInitiator : MonoBehaviour {
 		
 		for (int i = 0; i < bubblesX; i++) {
 			for (int j = 0; j < bubblesY; j++) {
-				bubbleArray[i + j * bubblesX] = (Transform)Instantiate (normalBubble, new Vector3(startX + 2.0f * i, startY + 2.0f * j, 0), Quaternion.identity);
-				bubbleArray[i + j * bubblesX].parent = bubblesParent.GetComponent<Transform>();
+				tmp = i + j * bubblesX;
+				bubbleArray[tmp] = (Transform)Instantiate (normalBubble, new Vector3(startX + 2.0f * i, startY + 2.0f * j, 0), Quaternion.identity);
+				bubbleArray[tmp].parent = bubblesParent.GetComponent<Transform>();
+				bubbleArray[tmp].GetComponent<normalBubbleState>().id = tmp;
 			}
 		}
 
@@ -79,6 +83,19 @@ public class gameInitiator : MonoBehaviour {
 			tmp = Random.Range (0, normalBubbles.Count);
 			tmp = normalBubbles[tmp];
 			Transform prefab = (Transform)Instantiate (markUnpoppedPrefab);
+			prefab.parent = bubbleArray[tmp].transform;
+			bubbleArray[tmp].GetComponent<normalBubbleState>().hasPowerup = true;
+			prefab.localPosition = Vector3.zero;
+			normalBubbles.Remove (tmp);
+			poppableBubbles.Remove (tmp);
+			
+		}
+		
+		// Give mark splash powerups
+		for (int i = 0; i < splashNum; i++) {
+			tmp = Random.Range (0, normalBubbles.Count);
+			tmp = normalBubbles[tmp];
+			Transform prefab = (Transform)Instantiate (splashPrefab);
 			prefab.parent = bubbleArray[tmp].transform;
 			bubbleArray[tmp].GetComponent<normalBubbleState>().hasPowerup = true;
 			prefab.localPosition = Vector3.zero;
@@ -147,6 +164,20 @@ public class gameInitiator : MonoBehaviour {
 		bubbleArray[tmp].BroadcastMessage("startWithKey");
 	}
 
+	public void splashPop(int bubbleId){
+		if (bubbleId >= bubblesX) {
+			bubbleArray [bubbleId - bubblesX].GetComponent<normalBubbleState> ().popBubble ();
+		}
+		if (bubbleId < bubblesX * (bubblesY - 1)) {
+			bubbleArray [bubbleId + bubblesX].GetComponent<normalBubbleState> ().popBubble ();
+		}
+		if (bubbleId % bubblesX != 0) {
+			bubbleArray [bubbleId - 1].GetComponent<normalBubbleState> ().popBubble ();
+		}
+		if ((bubbleId + 1) % bubblesX != 0) {
+			bubbleArray [bubbleId + 1].GetComponent<normalBubbleState> ().popBubble ();
+		}
+	}
 	
 	public void markUnpopped(){
 		for (int i = 0; i < bubbleArray.Length; i++) {

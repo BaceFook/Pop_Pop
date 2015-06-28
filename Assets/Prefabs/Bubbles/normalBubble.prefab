@@ -145,8 +145,16 @@ MonoBehaviour:
   isKey: 0
   hasPowerup: 0
   id: 0
-  normalSprite: {fileID: 21300000, guid: 72fc48bb8c287b241bfc57873ffedc71, type: 3}
-  poppedSprite: {fileID: 21300000, guid: 8b1943f41099481418328953368be24a, type: 3}
+  normalSprites:
+  - {fileID: 21300000, guid: c672b1b39497e3146afd7bc7207d09f2, type: 3}
+  - {fileID: 21300000, guid: 8a30a4c95edc4ac4487f7ee07525ff68, type: 3}
+  - {fileID: 21300000, guid: 7b9c1ae82c497e84483244610217d58b, type: 3}
+  - {fileID: 21300000, guid: 8b5960627b01c7f41869472086be7291, type: 3}
+  poppedSprites:
+  - {fileID: 21300000, guid: 660d38288171fdc438c262d6a9fed02d, type: 3}
+  - {fileID: 21300000, guid: b40737b1de8590a40a5b8287e853ae4b, type: 3}
+  - {fileID: 21300000, guid: 5271f448592c8cb4c8682687b9ccf142, type: 3}
+  - {fileID: 21300000, guid: b133e4767959672458a6861a10e3c7d5, type: 3}
 --- !u!212 &21212560
 SpriteRenderer:
   m_ObjectHideFlags: 1
