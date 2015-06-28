@@ -14,8 +14,10 @@ public class gameInitiator : MonoBehaviour {
 	public int poppedNum = 10;
 
 	public int connectedPairs = 5;
+	public int markUnpoppedNum = 5;
 
 	public Transform normalBubble;
+	public Transform markUnpoppedPrefab;
 	public Transform[] bubbleArray;
 
 	List<int>normalBubbles = new List<int>();
@@ -29,6 +31,18 @@ public class gameInitiator : MonoBehaviour {
 	private int _x;
 	private int _y;
 
+	
+	private static gameInitiator instance = null;
+	
+	public static gameInitiator Instance {
+		get {
+			return instance;
+		}
+	}
+	
+	void Awake () {
+		instance = this;
+	}
 
 	void Start () {
 		// Use random seed to generate same results
@@ -60,15 +74,23 @@ public class gameInitiator : MonoBehaviour {
 		// Set up powerups and powerdowns
 		// ...
 
+		// Give mark unpopped powerups
+		for (int i = 0; i < markUnpoppedNum; i++) {
+			tmp = Random.Range (0, normalBubbles.Count);
+			tmp = normalBubbles[tmp];
+			Transform prefab = (Transform)Instantiate (markUnpoppedPrefab);
+			prefab.parent = bubbleArray[tmp].transform;
+			bubbleArray[tmp].GetComponent<normalBubbleState>().hasPowerup = true;
+			prefab.localPosition = Vector3.zero;
+			normalBubbles.Remove (tmp);
+			poppableBubbles.Remove (tmp);
+			
+		}
+
 		// Set up connected pairs
 		for (int i = 0; i < connectedPairs; i++) {
 			tmp = Random.Range (0, horizontalPairs.Count);
 			tmp = horizontalPairs[tmp];
-			horizontalPairs.Remove(tmp);
-			if((tmp + 1) % (bubblesX - 1) != 0 && tmp != (bubblesX - 1) * bubblesY - 1)
-				horizontalPairs.Remove(tmp + 1);
-			if(tmp % (bubblesX - 1) != 0)
-				horizontalPairs.Remove(tmp - 1);
 
 			int leftNum = tmp + Mathf.FloorToInt(tmp / (bubblesX - 1.0f));
 			int rightNum = tmp + Mathf.FloorToInt(tmp / (bubblesX - 1.0f) + 1);
@@ -77,12 +99,18 @@ public class gameInitiator : MonoBehaviour {
 				lockableBubbles.Remove(leftNum);
 			else
 				lockableBubbles.Remove(rightNum);
+			
+			horizontalPairs.Remove(tmp);
+			if((tmp + 1) % (bubblesX - 1) != 0 && tmp != (bubblesX - 1) * bubblesY - 1)
+				horizontalPairs.Remove(tmp + 1);
+			if(tmp % (bubblesX - 1) != 0)
+				horizontalPairs.Remove(tmp - 1);
 
 			poppableBubbles.Remove(leftNum);
 			poppableBubbles.Remove(rightNum);
 		}
 
-
+		// Pop random bubbles
 
 		for (int i = 0; i < poppedNum; i++) {
 			tmp = Random.Range (0, poppableBubbles.Count);
@@ -91,6 +119,8 @@ public class gameInitiator : MonoBehaviour {
 			poppableBubbles.Remove(tmp);
 			lockableBubbles.Remove(tmp);
 		}
+
+		// Lock random bubbles
 		
 		for (int i = 0; i < lockedNum; i++) {
 			tmp = Random.Range (0, lockableBubbles.Count);
@@ -100,13 +130,15 @@ public class gameInitiator : MonoBehaviour {
 			lockedBubbles.Add (tmp);
 		}
 
+		// Give key to some bubble
+
 		tmp = Random.Range (0, lockableBubbles.Count);
 		tmp = lockableBubbles[tmp];
 		bubbleArray[tmp].BroadcastMessage("startWithKey");
 
 	}
 
-	void unlockNextBubble(){
+	public void unlockNextBubble(){
 		if (lockedBubbles.Count == 0)
 			return;
 		tmp = lockedBubbles [0];
@@ -115,4 +147,8 @@ public class gameInitiator : MonoBehaviour {
 		bubbleArray[tmp].BroadcastMessage("startWithKey");
 	}
 
+	
+	public void markUnpopped(){
+		Debug.Log ("asDsad");
+	}
 }
