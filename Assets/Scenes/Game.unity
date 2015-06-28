@@ -123,6 +123,7 @@ MonoBehaviour:
   poppedNum: 10
   connectedPairs: 5
   markUnpoppedNum: 5
+  splashNum: 5
   normalBubble: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
   markUnpoppedPrefab: {fileID: 435068, guid: 723a9b5c82ceb354fb81e972c3c5919a, type: 2}
   splashPrefab: {fileID: 400082, guid: 4bac2ace755862f43a550cf64c3ba105, type: 2}
@@ -166,6 +167,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f09b57096628c6b4e9a96b3ccd42dc37, type: 3}
   - {fileID: 8300000, guid: a3b8bec008948b44783c2c31a7d758ef, type: 3}
   - {fileID: 8300000, guid: 95b126b36d5d53945ac90ffe8966063d, type: 3}
+  myAudio: {fileID: 0}
 --- !u!82 &383516128
 AudioSource:
   m_ObjectHideFlags: 0

@@ -42,6 +42,7 @@ public class normalBubbleState : MonoBehaviour {
 			//Handheld.Vibrate ();
 			return;
 		}
+		isPopped = true;
 		if (isKey) {
 			gameInitiator.Instance.unlockNextBubble();
 			isKey = false;
@@ -49,7 +50,7 @@ public class normalBubbleState : MonoBehaviour {
 
 		if (hasPowerup)
 			BroadcastMessage ("TriggerPowerup", id);
-		gameInitiator.Instance.BroadcastMessage ("playPop");
+		GetComponent<bubbleSound> ().playPop ();
 		toNormalBubble ();
 	}
 

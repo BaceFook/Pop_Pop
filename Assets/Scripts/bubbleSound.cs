@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class soundController : MonoBehaviour {
+public class bubbleSound : MonoBehaviour {
 	public AudioClip[] popSounds;
 	private AudioSource myAudio;
 
@@ -9,9 +9,9 @@ public class soundController : MonoBehaviour {
 		myAudio = GetComponent<AudioSource> ();
 	}
 
-	void playPop(){
+	public void playPop(){
 		myAudio.clip = popSounds [Random.Range (0, popSounds.Length)];
-		myAudio.Play ();
+		myAudio.PlayDelayed(Random.Range(0.0f, 0.1f));
 	}
 	
 }
