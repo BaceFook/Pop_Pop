@@ -241,6 +241,10 @@ Prefab:
       propertyPath: poppingsfx
       value: 
       objectReference: {fileID: 8300000, guid: bc28ca2f8171a9542b18feb1cf376fcd, type: 3}
+    - target: {fileID: 8216952, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bc28ca2f8171a9542b18feb1cf376fcd, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
   m_IsPrefabParent: 0
