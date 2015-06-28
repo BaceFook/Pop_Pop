@@ -5,5 +5,6 @@ public class markUnpopped : MonoBehaviour {
 
 	void TriggerPowerup(){
 		gameInitiator.Instance.markUnpopped();
+		Destroy(gameObject);
 	}
 }

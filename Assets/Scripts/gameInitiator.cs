@@ -149,6 +149,8 @@ public class gameInitiator : MonoBehaviour {
 
 	
 	public void markUnpopped(){
-		Debug.Log ("asDsad");
+		for (int i = 0; i < bubbleArray.Length; i++) {
+			bubbleArray[i].GetComponent<normalBubbleState>().highlightBubble();
+		}
 	}
 }

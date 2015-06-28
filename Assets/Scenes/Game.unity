@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 383516125}
   - 114: {fileID: 383516124}
+  - 114: {fileID: 383516126}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -118,7 +119,11 @@ MonoBehaviour:
   bubblesY: 5
   lockedNum: 10
   poppedNum: 10
+  connectedPairs: 5
+  markUnpoppedNum: 5
   normalBubble: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+  markUnpoppedPrefab: {fileID: 435068, guid: 723a9b5c82ceb354fb81e972c3c5919a, type: 2}
+  bubbleArray: []
 --- !u!4 &383516125
 Transform:
   m_ObjectHideFlags: 0
@@ -131,6 +136,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &383516126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 383516123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89047f267d5de1e4c9f7cbcde2db3e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &453612648
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,9 +5,25 @@ public class normalBubbleState : MonoBehaviour {
 	public bool isPopped = false;
 	public bool isLocked = false;
 	public bool isKey = false;
+	public bool hasPowerup = false;
+	public int id;
 
 	public Sprite normalSprite;
 	public Sprite poppedSprite;
+
+	private SpriteRenderer highlightRenderer;
+	private float highlightVal = 0;
+
+	void Start(){
+		highlightRenderer = transform.FindChild ("highlight").GetComponent<SpriteRenderer> ();
+	}
+
+	void Update(){
+		if (highlightVal > 0.0f) {
+			highlightVal = Mathf.Max (highlightVal - Time.deltaTime * 2.0f, 0.0f);
+			highlightRenderer.color = new Color( 1, 1, 1, highlightVal);
+		}
+	}
 
 	void OnMouseDown(){
 		if (isPopped || isLocked) {
@@ -16,9 +32,12 @@ public class normalBubbleState : MonoBehaviour {
 		}
 
 		if (isKey) {
-			GameObject.Find ("GameController").BroadcastMessage("unlockNextBubble");
+			gameInitiator.Instance.unlockNextBubble();
 			isKey = false;
 		}
+
+		if (hasPowerup)
+			BroadcastMessage ("TriggerPowerup");
 		popBubble ();
 	}
 
@@ -50,6 +69,12 @@ public class normalBubbleState : MonoBehaviour {
 		SpriteRenderer renderer = transform.FindChild ("lock").GetComponent<SpriteRenderer>();
 		renderer.enabled = false;
 		isLocked = false;
+	}
+
+	public void highlightBubble(){
+		if (isPopped)
+			return;
+		highlightVal = 1.0f;
 	}
 
 }
