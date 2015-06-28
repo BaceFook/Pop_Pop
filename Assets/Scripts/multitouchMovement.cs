@@ -11,10 +11,8 @@ public class multitouchMovement : MonoBehaviour {
 	Vector2 startPoint = Vector2.zero;
 	Vector2 mouseStart = Vector2.zero;
 	Vector3 initialPosition = Vector3.zero;
-	Text debugText;
 
 	void Start(){
-		debugText = GameObject.Find ("Canvas").GetComponentInChildren<Text> ();
 		initialPosition = transform.localPosition;
 	}
 	
@@ -64,8 +62,6 @@ public class multitouchMovement : MonoBehaviour {
 	}
 
 	void Update(){
-		debugText.text = Input.touchCount.ToString();
-
 		checkMultitouch();
 		if (Input.touchCount > 0)
 			return;

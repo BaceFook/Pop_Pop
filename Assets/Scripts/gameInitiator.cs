@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -228,10 +229,10 @@ public class gameInitiator : MonoBehaviour {
 			return;
 
 		for (int i = 0; i < bubbleArray.Length; i++) {
-			if(bubbleArray[tmp].GetComponent<bubbleState>().isPopped)
+			if(!bubbleArray[i].GetComponent<bubbleState>().isPopped)
 				return;
 		}
 
-		// Victory
+		GameObject.Find ("Canvas").transform.FindChild ("Victory").GetComponent<Image> ().enabled = true;
 	}
 }
