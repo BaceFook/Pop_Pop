@@ -8,13 +8,21 @@ public class normalBubbleState : MonoBehaviour {
 	public bool hasPowerup = false;
 	public int id;
 
-	public Sprite normalSprite;
-	public Sprite poppedSprite;
+	public Sprite[] normalSprites;
+	public Sprite[] poppedSprites;
 
 	private SpriteRenderer highlightRenderer;
 	private float highlightVal = 0;
 
+	private SpriteRenderer myRenderer;
+
+	void Awake(){
+		myRenderer = transform.FindChild ("bubble").GetComponent<SpriteRenderer>();
+	}
+
 	void Start(){
+		if(!isPopped)
+			myRenderer.sprite = normalSprites [Random.Range (0, normalSprites.Length)];
 		highlightRenderer = transform.FindChild ("highlight").GetComponent<SpriteRenderer> ();
 	}
 
@@ -42,8 +50,7 @@ public class normalBubbleState : MonoBehaviour {
 	}
 
 	void popBubble(){
-		SpriteRenderer renderer = transform.FindChild ("bubble").GetComponent<SpriteRenderer>();
-		renderer.sprite = poppedSprite;
+		myRenderer.sprite = poppedSprites [Random.Range (0, poppedSprites.Length)];
 		isPopped = true;
 	}
 

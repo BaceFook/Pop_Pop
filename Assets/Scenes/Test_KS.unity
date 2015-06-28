@@ -234,6 +234,14 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: normalSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: poppedSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 491120, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 2.4000001
@@ -266,6 +274,46 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: normalSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: c672b1b39497e3146afd7bc7207d09f2,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: normalSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a30a4c95edc4ac4487f7ee07525ff68,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: normalSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b9c1ae82c497e84483244610217d58b,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: normalSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b5960627b01c7f41869472086be7291,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: poppedSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 660d38288171fdc438c262d6a9fed02d,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: poppedSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: b40737b1de8590a40a5b8287e853ae4b,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: poppedSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5271f448592c8cb4c8682687b9ccf142,
+        type: 3}
+    - target: {fileID: 11464022, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
+      propertyPath: poppedSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: b133e4767959672458a6861a10e3c7d5,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8111548a2f0f2ff459dfed381d6d2a0d, type: 2}
   m_IsPrefabParent: 0
