@@ -3,12 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class multitouchMovement : MonoBehaviour {
+	public float topBorder = 0.0f;
+	public float rightBorder = 0.0f;
+	public float bottomBorder = 0.0f;
+	public float leftBorder = 0.0f;
+
 	Vector2 startPoint = Vector2.zero;
+	Vector2 mouseStart = Vector2.zero;
 	Vector3 initialPosition = Vector3.zero;
 	Text debugText;
 
 	void Start(){
 		debugText = GameObject.Find ("Canvas").GetComponentInChildren<Text> ();
+		initialPosition = transform.localPosition;
 	}
 	
 	Vector2 GetMidpoint(Touch touch1, Touch touch2)
@@ -23,20 +30,18 @@ public class multitouchMovement : MonoBehaviour {
 				(touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Began);
 	}    
 
-	void MoveCamera()
+	void checkMultitouch()
 	{
 		// do not do anything until there are at least two points.
-		debugText.text = Input.touchCount.ToString ();
-		
-		if(Input.touchCount < 2)
+		if (Input.touchCount < 2)
 			return;
 		
 		// capture the touch points
-		Touch touch1 = Input.GetTouch(0);
-		Touch touch2 = Input.GetTouch(1);
+		Touch touch1 = Input.GetTouch (0);
+		Touch touch2 = Input.GetTouch (1);
 		
 		// gets the midpoint between the two touches
-		var midpoint = GetMidpoint(touch1, touch2);
+		var midpoint = GetMidpoint (touch1, touch2);
 		
 		// if its just started, save the first point.
 		if (IsBegun (touch1, touch2)) {
@@ -46,17 +51,34 @@ public class multitouchMovement : MonoBehaviour {
 		}
 		
 		// get the difference between the two points.
-		Vector2 difference = startPoint - midpoint;
-		debugText.text = difference.ToString ();
+		moveCamera(startPoint - midpoint);
+	}
 
+	void moveCamera(Vector2 difference){
 		float ratio = Screen.height / 10f;
+
 		transform.position = new Vector3(
-			Mathf.Clamp (initialPosition.x + difference.x / ratio, -8.0f, 6.0f),
-			Mathf.Clamp (initialPosition.y + difference.y / ratio, -4.0f, 4.0f),
+			Mathf.Clamp (initialPosition.x + difference.x / ratio, leftBorder, rightBorder),
+			Mathf.Clamp (initialPosition.y + difference.y / ratio, bottomBorder, topBorder),
 			initialPosition.z);
 	}
 
 	void Update(){
-		MoveCamera ();
+		debugText.text = Input.touchCount.ToString();
+
+		checkMultitouch();
+		if (Input.touchCount > 0)
+			return;
+
+		if(Input.GetMouseButtonDown(1))
+		{	
+			initialPosition = transform.position;
+			mouseStart = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+		}
+		
+		if(Input.GetMouseButton(1))
+		{
+			moveCamera(mouseStart - new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+		}
 	}
 }

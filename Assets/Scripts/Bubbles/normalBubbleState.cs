@@ -29,7 +29,7 @@ public class normalBubbleState : MonoBehaviour {
 
 	void Update(){
 		if (highlightVal > 0.0f) {
-			highlightVal = Mathf.Max (highlightVal - Time.deltaTime * 2.0f, 0.0f);
+			highlightVal = Mathf.Max (highlightVal - Time.deltaTime / 2.0f, 0.0f);
 			highlightRenderer.color = new Color( 1, 1, 1, highlightVal);
 		}
 	}
@@ -87,7 +87,7 @@ public class normalBubbleState : MonoBehaviour {
 	public void highlightBubble(){
 		if (isPopped)
 			return;
-		highlightVal = 1.0f;
+		highlightVal = 0.5f;
 	}
 
 }

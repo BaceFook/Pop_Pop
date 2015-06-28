@@ -30,9 +30,7 @@ public class gameInitiator : MonoBehaviour {
 	List<int>lockedBubbles = new List<int>();
 	
 	private int tmp;
-	private int _x;
-	private int _y;
-
+	private float tmpf;
 	
 	private static gameInitiator instance = null;
 	
@@ -55,7 +53,16 @@ public class gameInitiator : MonoBehaviour {
 
 		float startX = -1.0f * (bubblesX-1);
 		float startY = -1.0f * (bubblesY-1);
-		
+
+		multitouchMovement cameraMovement = Camera.main.GetComponent<multitouchMovement> ();
+		float cameraSize = Camera.main.orthographicSize;
+		tmpf = Mathf.Max (bubblesY - cameraSize, 0);
+		cameraMovement.topBorder = tmpf;		
+		cameraMovement.bottomBorder = - tmpf;
+		tmpf = Mathf.Max (bubblesX - cameraSize * Camera.main.aspect, 0);
+		cameraMovement.rightBorder = tmpf;
+		cameraMovement.leftBorder = - tmpf;
+
 		for (int i = 0; i < bubblesX; i++) {
 			for (int j = 0; j < bubblesY; j++) {
 				tmp = i + j * bubblesX;
