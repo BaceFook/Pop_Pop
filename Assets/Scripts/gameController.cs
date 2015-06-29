@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class gameController : MonoBehaviour {
 
@@ -16,8 +17,21 @@ public class gameController : MonoBehaviour {
 //	void Awake () {
 //		instance = this;
 //	}
-//
-//	void MarkUnpopped(){
-//
-//	}
+	List<Touch>normalBubbles = new List<Touch>();
+
+	void Update() {
+		if (Input.GetMouseButton (0)) {
+			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			RaycastHit2D hit = Physics2D.Raycast(new Vector2(point.x, point.y), new Vector2(point.x, point.y), 0.0f);
+			if(hit.collider != null)
+				Debug.Log (hit.collider.gameObject.transform.position);
+		}
+
+		for (int i = 0; i < Input.touchCount; i++) {
+			Vector3 point = Camera.main.ScreenToWorldPoint(Input.GetTouch(i).position);
+			RaycastHit2D hit = Physics2D.Raycast(new Vector2(point.x, point.y), new Vector2(point.x, point.y), 0.0f);
+			if(hit.collider != null)
+				Debug.Log (hit.point);
+		}
+	}
 }
