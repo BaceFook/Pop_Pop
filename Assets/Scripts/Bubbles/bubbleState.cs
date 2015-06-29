@@ -26,6 +26,7 @@ public class bubbleState : MonoBehaviour {
 		if(!isPopped)
 			myRenderer.sprite = normalSprites [Random.Range (0, normalSprites.Length)];
 		highlightRenderer = transform.FindChild ("highlight").GetComponent<SpriteRenderer> ();
+		transform.FindChild ("bubble").Rotate (0, 0, Random.Range (0.0f, 360.0f));
 	}
 
 	void Update(){
@@ -56,7 +57,10 @@ public class bubbleState : MonoBehaviour {
 			isKey = false;
 		}
 
-		gameInitiator.Instance.popped (id);
+		if (gameInitiator.Instance != null)
+			gameInitiator.Instance.popped (id);
+		else
+			Debug.LogWarning ("No gameInitiator Instance found");
 
 		if (hasPowerup)
 			BroadcastMessage ("TriggerPowerup", id);
@@ -66,6 +70,7 @@ public class bubbleState : MonoBehaviour {
 
 	void toNormalBubble(){
 		myRenderer.sprite = poppedSprites [Random.Range (0, poppedSprites.Length)];
+		transform.FindChild ("bubble").Rotate (0, 0, Random.Range (0.0f, 360.0f));
 		isPopped = true;
 	}
 
