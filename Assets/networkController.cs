@@ -9,14 +9,16 @@ public class networkController : MonoBehaviour {
 
 	void Start () {
 		serverListGrid = GameObject.Find ("serverList");
-
-		Network.InitializeServer (32, 1425, true);
-
 		Network.natFacilitatorIP = "79.98.25.158";
 		Network.natFacilitatorPort = 4444;
 		MasterServer.ipAddress = "79.98.25.158";
 		MasterServer.port = 3333;
+	}
+
+	public void startServer(){
+		Network.InitializeServer (32, 1425, true);
 		MasterServer.RegisterHost ("good", "game" + Random.Range (0.0f, 1.0f).ToString());
+		
 	}
 
 	void updateServerGrid(){
