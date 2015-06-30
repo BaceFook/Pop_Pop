@@ -17,7 +17,15 @@ public class gameController : MonoBehaviour {
 //	void Awake () {
 //		instance = this;
 //	}
-	List<Touch>normalBubbles = new List<Touch>();
+//	List<Touch>normalBubbles = new List<Touch>();
+
+	public class Finger{
+		public bool isValid = true;
+		public float pressDuration = 0.0f;
+		public float swipeDuration = 0.0f;
+		public GameObject lastObject;
+		public int id;
+	}
 
 	void Update() {
 		if (Input.GetMouseButton (0)) {
@@ -25,6 +33,7 @@ public class gameController : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.Raycast(new Vector2(point.x, point.y), new Vector2(point.x, point.y), 0.0f);
 			if(hit.collider != null)
 				Debug.Log (hit.collider.gameObject.transform.position);
+			return;
 		}
 
 		for (int i = 0; i < Input.touchCount; i++) {
