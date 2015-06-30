@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class networkController : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class networkController : MonoBehaviour {
 
 	public void startServer(){
 		Network.InitializeServer (32, 1425, true);
+	}
+	void OnServerInitialized (NetworkPlayer player){
 		MasterServer.RegisterHost ("good", "game" + Random.Range (0.0f, 1.0f).ToString());
 		
 	}
@@ -39,6 +42,10 @@ public class networkController : MonoBehaviour {
 			MasterServer.ClearHostList();
 			MasterServer.RequestHostList ("good");
 			lastHostRequest = Time.unscaledTime;
+		}
+
+		if (Network.isServer) {
+			GameObject.Find("connections").GetComponent<Text>().text = Network.connections.Length.ToString();
 		}
 
 

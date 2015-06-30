@@ -11,6 +11,10 @@ public class serverButton : MonoBehaviour {
 	}
 
 	public void connectToServer(){
+		if (!Network.isServer) {
+			Network.Connect(myServer);
+		}
+		Debug.Log (myServer.useNat);
 		Debug.Log (myServer.ip[0]);
 	}
 }
