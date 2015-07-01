@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class spriteRandomizer : MonoBehaviour {
+public class spriteRandomizer : NetworkBehaviour {
 
-	private float phase;
+	[SyncVar(hook="SetPhase")]
+	public float phase;
+	
 	// Use this for initialization
 	void Start () {
-		phase = Random.Range (0f, Mathf.PI * 2f);
+		SetPhase(Random.Range (0f, Mathf.PI * 2f));
+	}
+
+	void SetPhase(float tmp){
+		phase = tmp;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3 (1f, Mathf.Sin (Time.time + phase) * 2f, 1f);
-		Debug.Log (transform.localPosition);
+		phase += Time.deltaTime;
+		transform.position = new Vector3 (1f, Mathf.Sin (phase) * 2f, 1f);
 	}
 }
