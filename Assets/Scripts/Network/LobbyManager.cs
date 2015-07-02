@@ -43,7 +43,6 @@ public class LobbyManager : NetworkManager {
 	{
 		base.OnStartClient (client);
 		Debug.Log ("I started client");
-		Debug.Log (client.connection.connectionId);
 	}
 	
 	public override void OnServerConnect (NetworkConnection conn)
@@ -57,7 +56,6 @@ public class LobbyManager : NetworkManager {
 	{
 		base.OnServerConnect (conn);
 		myConnection = conn;
-		Debug.Log (conn.connectionId);
 		if (NetworkServer.active) {
 			GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am server";
 			Debug.Log ("I connected to myself");
