@@ -5,18 +5,12 @@ using UnityEngine.UI;
 
 public class LobbyManager : NetworkManager {
 
+	public GameObject networkGame;
+
 	private NetworkConnection myConnection;
-	
-	public void Setready(){
-//		ClientScene.Ready (client.connection);
-		Debug.Log (NetworkServer.connections.Count);
-		
-		foreach (NetworkConnection conn  in NetworkServer.connections) {
-			if (conn == null)
-				continue;
-			Debug.Log (conn.connectionId);
-			Debug.Log (conn.isReady);
-		}
+
+	public void Pop(){
+
 	}
 
 	void Start () {
@@ -36,6 +30,10 @@ public class LobbyManager : NetworkManager {
 	public override void OnStartServer ()
 	{
 		base.OnStartServer ();
+		ClientScene.RegisterPrefab (networkGame);
+		GameObject ga = (GameObject)Instantiate (networkGame);
+		ga.name = networkGame.name;
+		NetworkServer.Spawn (ga);
 		Debug.Log ("I started server");
 	}
 
