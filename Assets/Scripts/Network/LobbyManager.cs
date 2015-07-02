@@ -58,12 +58,14 @@ public class LobbyManager : NetworkManager {
 			GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am server";
 			Debug.Log ("I connected to myself");
 			ClientScene.Ready (conn);
+			ClientScene.AddPlayer (0);
 		}
 		else
 		{
 			GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am client";
 			Debug.Log ("I connected to someone");
 			ClientScene.Ready (conn);
+			ClientScene.AddPlayer (1);
 		}
 	}
 

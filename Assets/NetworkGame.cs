@@ -4,12 +4,6 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class NetworkGame : NetworkBehaviour {
-	
-	[Command]
-	public void CmdOnPop(bool player0){
-		Debug.Log ("Command" + player0.ToString());
-		GameObject.FindObjectOfType<NetworkGame> ().RpcOnPop (player0);
-	}
 
 	void Start(){
 

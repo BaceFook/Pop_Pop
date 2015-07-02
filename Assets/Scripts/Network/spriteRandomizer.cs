@@ -3,6 +3,13 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class spriteRandomizer : NetworkBehaviour {
+	
+	[Command]
+	public void CmdOnPop(bool player0){
+		Debug.Log ("Command" + player0.ToString());
+		GameObject.FindObjectOfType<NetworkGame> ().RpcOnPop (player0);
+	}
+
 
 	[SyncVar(hook="SetPhase")]
 	public float phase;
