@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class LobbyManager : NetworkManager {
@@ -15,6 +16,22 @@ public class LobbyManager : NetworkManager {
 
 	void Start () {
 		PlayerPrefs.SetString("CloudNetworkingId", "124152");
+		StartMatchMaker ();
+		matchMaker.ListMatches (0, 25, "", OnMyMatchList);
+	}
+
+	void OnMyMatchList(ListMatchResponse matchList){
+		Debug.Log ("MatchListLength: " + matchList.matches.Count.ToString ());
+		for (int i = 0; i < matchList.matches.Count; i++) {
+			Debug.Log ("MathPlayers: " + matchList.matches[i].currentSize.ToString ());
+			if(matchList.matches[i].currentSize > 1)
+				continue;
+			matchMaker.JoinMatch(matchList.matches[i].networkId, "", OnMatchJoined);
+			return;
+		}
+		//			startMyOwn
+		matchMaker.CreateMatch("pop", 2, true, "", OnMatchCreate);
+
 	}
 
 	void Update () {
