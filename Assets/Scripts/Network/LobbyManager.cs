@@ -32,25 +32,26 @@ public class LobbyManager : NetworkManager {
 
 	void OnMyMatchList(ListMatchResponse matchList){
 		Debug.Log ("Cecking list");
-		bool skip;
+		bool skip = false;
 
-		for (int i = 0; i < matchList.matches.Count; i++) {
-			skip = false;
+		int count = matchList.matches.Count;
+		if (matchList.matches.Count > 0) {
 
-			if(matchList.matches[i].currentSize > 1)
-				continue;
+			if (matchList.matches [count - 1].currentSize < 2) {
 
-			foreach (MatchDesc match in attemptedMatches) {
-				if(matchList.matches[i].networkId == match.networkId)
-					skip = true;
+				foreach (MatchDesc match in attemptedMatches) {
+					if (matchList.matches [count - 1].networkId == match.networkId)
+						skip = true;
+				}
+
+				if(!skip){
+					attemptedMatches.Add (matchList.matches [count - 1]);
+
+					Debug.Log ("Joining: " + matchList.matches [count - 1].networkId.ToString ());
+					matchMaker.JoinMatch (matchList.matches [count - 1].networkId, "", OnJoiningMatch);
+					return;
+				}
 			}
-			if (skip)
-				continue;
-
-			attemptedMatches.Add(matchList.matches[i]);
-			Debug.Log ("Joining: " + matchList.matches[i].networkId.ToString());
-			matchMaker.JoinMatch(matchList.matches[i].networkId, "",OnJoiningMatch);
-			return;
 		}
 
 		Debug.Log ("Creating my own");
