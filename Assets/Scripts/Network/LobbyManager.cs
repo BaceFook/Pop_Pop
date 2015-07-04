@@ -62,8 +62,10 @@ public class LobbyManager : NetworkManager {
 	{
 		base.OnClientError (conn, errorCode);
 		Debug.Log (errorCode);
-		if (connected)
+		if (connected) {
+			Debug.Log ("SHOULD BE CONNECTED");
 			return;
+		}
 		if (errorCode == 6) {
 			retryAt = Time.time + 1;
 		}

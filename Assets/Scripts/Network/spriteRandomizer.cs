@@ -13,7 +13,6 @@ public class spriteRandomizer : NetworkBehaviour {
 
 	[SyncVar(hook="SetPhase")]
 	public float phase;
-	private float phaseSyncTime;
 	
 	// Use this for initialization
 	void Start () {
@@ -23,12 +22,12 @@ public class spriteRandomizer : NetworkBehaviour {
 
 	void SetPhase(float tmp){
 		phase = tmp;
-		phaseSyncTime = Time.unscaledTime;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3 (1f, Mathf.Sin (phase + Time.unscaledTime - phaseSyncTime) * 2f, 1f);
+		phase += Time.deltaTime;
+		transform.position = new Vector3 (1f, Mathf.Sin (phase) * 2f, 1f);
 	}
 
 	
