@@ -382,7 +382,7 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_SendPeerInfo: 0
   m_MaxDelay: .00999999978
-  m_LogLevel: 2
+  m_LogLevel: 3
   m_PlayerPrefab: {fileID: 101186, guid: 737d0886058be13429811cace94e0a8e, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 171294, guid: a3b1d894ffc08cb408ef6b614d22aed0, type: 2}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -411,7 +411,7 @@ MonoBehaviour:
     m_MaxSentMessageQueueSize: 128
     m_IsAcksLong: 0
     m_Channels: []
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0
