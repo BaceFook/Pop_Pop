@@ -6,39 +6,38 @@ using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class LobbyManager : NetworkManager {
-
-	public GameObject networkGame;
+	public GameObject networkController;
 
 	List<MatchDesc> attemptedMatches = new List<MatchDesc>();
-
+	private bool autoMatch = false;
 	private NetworkConnection myConnection;
 	bool connected = false;
-
 	float retryAt = 0f;
-
-	public void Pop(){
-
-	}
 
 	void Start () {
 		PlayerPrefs.SetString ("CloudNetworkingId", "124152");
-		StartMatchMaker ();
-		CreateOrJoin ();
 	}
 
-	void CreateOrJoin(){
+	public void AutoFindMatch(){
+		retryAt = 0f;
+		autoMatch = true;
+		StartMatchMaker ();
+		CreateOrJoinMatch ();
+	}
+
+	void CreateOrJoinMatch(){
 		matchMaker.ListMatches (0, 25, "", OnMyMatchList);
 	}
 
 	void OnMyMatchList(ListMatchResponse matchList){
-		Debug.Log ("Cecking list");
-		bool skip = false;
+		if (!autoMatch)
+			return;
 
 		int count = matchList.matches.Count;
 		if (matchList.matches.Count > 0) {
-
 			if (matchList.matches [count - 1].currentSize < 2) {
 
+				bool skip = false;
 				foreach (MatchDesc match in attemptedMatches) {
 					if (matchList.matches [count - 1].networkId == match.networkId)
 						skip = true;
@@ -46,74 +45,69 @@ public class LobbyManager : NetworkManager {
 
 				if(!skip){
 					attemptedMatches.Add (matchList.matches [count - 1]);
-
-					Debug.Log ("Joining: " + matchList.matches [count - 1].networkId.ToString ());
 					matchMaker.JoinMatch (matchList.matches [count - 1].networkId, "", OnJoiningMatch);
 					return;
 				}
 			}
 		}
+		StartMyServer ();
+	}
 
-		Debug.Log ("Creating my own");
-		matchMaker.CreateMatch("pop", 2, true, "", OnMatchCreate);
-
+	void StartMyServer(){
+		var epochStart = new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc);
+		var timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
+		matchMaker.CreateMatch(timestamp.ToString(), 2, true, "", OnMatchCreate);
 	}
 
 	public override void OnClientError (NetworkConnection conn, int errorCode)
 	{
 		base.OnClientError (conn, errorCode);
-		Debug.Log (errorCode);
-		if (connected) {
-			Debug.Log ("SHOULD BE CONNECTED");
+		if (connected || !autoMatch) {
 			return;
 		}
-		if (errorCode == 6) {
+		if (errorCode == 6 && autoMatch) {
 			retryAt = Time.time + 1;
 		}
 	}
 
 	void Update(){
-		if (retryAt != 0f && retryAt < Time.time){
+		if (retryAt != 0f && retryAt < Time.time && autoMatch){
 			StartMatchMaker ();
-			CreateOrJoin ();
+			CreateOrJoinMatch ();
 			retryAt = 0f;
 		}
 	}
 
 	void OnJoiningMatch(JoinMatchResponse response){
+		Debug.Log ("On Joining Match");
+//		Debug.Log (response);
+//		matchInfo = new MatchInfo (response);
+//		StartClient ();
 		OnMatchJoined (response);
-		if (!response.success) {
-			CreateOrJoin();
-		}
-	}
-
-	public override void OnServerReady (NetworkConnection conn)
-	{
-		base.OnServerReady (conn);
-//		Debug.Log ("Client pressed ready");
+//		if (!response.success) {
+//			retryAt = Time.time + 1;
+//		}
 	}
 
 	public override void OnStartServer ()
 	{
+		Debug.Log ("On Start Server");
 		base.OnStartServer ();
-		ClientScene.RegisterPrefab (networkGame);
-		GameObject ga = (GameObject)Instantiate (networkGame);
-		ga.name = networkGame.name;
+		GameObject ga = (GameObject)Instantiate (networkController);
+		ga.name = networkController.name;
 		NetworkServer.Spawn (ga);
-//		Debug.Log ("I started server");
-	}
-
-	public override void OnStartClient (NetworkClient client)
-	{
-		base.OnStartClient (client);
-//		Debug.Log ("I started client");
 	}
 	
 	public override void OnServerConnect (NetworkConnection conn)
 	{
 		base.OnServerConnect (conn);
-		GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am server + enemy";
-//		Debug.Log ("Someone connected to me");
+		GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am server + enemy";
+	}
+
+	public override void OnStartClient (NetworkClient client)
+	{
+		Debug.Log ("On Star Client");
+		base.OnStartClient (client);
 	}
 
 	public override void OnClientConnect (NetworkConnection conn)
@@ -121,38 +115,41 @@ public class LobbyManager : NetworkManager {
 		base.OnServerConnect (conn);
 		myConnection = conn;
 		if (NetworkServer.active) {
-			GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am server";
-//			Debug.Log ("I connected to myself");
+			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am server";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
 		}
 		else
 		{
-			GameObject.Find ("networkStatus").GetComponent<Text>().text = "Am client";
-//			Debug.Log ("I connected to someone");
+			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am client";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (1);
 		}
 	}
 
-	public override void OnMatchCreate (UnityEngine.Networking.Match.CreateMatchResponse matchInfo)
-	{
-		base.OnMatchCreate (matchInfo);
-//		Debug.Log (matchInfo);
-	}
+	public void ExitMatchMaker(){
+		autoMatch = false;
+		if (matchMaker != null && matchInfo != null)
+			matchMaker.DestroyMatch (matchInfo.networkId, OnMatchDestoryed);
+		if (NetworkServer.active)
+			NetworkServer.Shutdown();
+		StopMatchMaker ();
+		StopHost ();
+		StopClient ();
 
-	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
-	{
-		base.OnServerAddPlayer (conn, playerControllerId);
-//		Debug.Log (playerControllerId);
+		Application.LoadLevel (Application.loadedLevel);
 	}
 
 	void OnDestroy(){
-//		Debug.Log ("Should drop match from matchmaker");
-		matchMaker.DestroyMatch (matchInfo.networkId, OnMatchDestoryed);
-		NetworkServer.Shutdown ();
+		if (matchInfo != null && matchMaker != null) {
+			matchMaker.DestroyMatch (matchInfo.networkId, OnMatchDestoryed);
+			NetworkServer.Shutdown ();
+			StopMatchMaker ();
+			StopHost ();
+			StopClient ();
+		}
 	}
 
 	void OnMatchDestoryed(BasicResponse response){
