@@ -42,6 +42,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallsPrefab: {fileID: 150644, guid: c258577dc1b278b4796575c8a8a55861, type: 2}
+  ballPrefab: {fileID: 179354, guid: 91fd960aaa564b3408a582895926d109, type: 2}
 --- !u!114 &11425196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,7 +89,7 @@ MonoBehaviour:
   currentMode: 0
   gameTime: 0
   timeSyncInterval: .200000003
-  waitTime: 10
+  waitTime: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -116,6 +117,14 @@ Prefab:
       propertyPath: wallsPrefab
       value: 
       objectReference: {fileID: 150644, guid: c258577dc1b278b4796575c8a8a55861, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 179354, guid: 91fd960aaa564b3408a582895926d109, type: 2}
+    - target: {fileID: 0}
+      propertyPath: waitTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168254}

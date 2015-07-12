@@ -24,7 +24,7 @@ public class NetworkController : NetworkBehaviour {
 	float gameStart;
 	float lastTimeSync;
 	public float timeSyncInterval = 0.2f;
-	public float waitTime = 10f;
+	public float waitTime = 1f;
 
 	Text remainingTimeText;
 
