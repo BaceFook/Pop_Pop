@@ -3675,7 +3675,7 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_SendPeerInfo: 0
   m_MaxDelay: .00999999978
-  m_LogLevel: 4
+  m_LogLevel: 5
   m_PlayerPrefab: {fileID: 139510, guid: 87848247fc80e80498ba1a4db0a1838d, type: 2}
   m_AutoCreatePlayer: 0
   m_PlayerSpawnMethod: 0

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LobbyManager : NetworkManager {
 	public GameObject networkController;
 
-	List<MatchDesc> attemptedMatches = new List<MatchDesc>();
+	List<string> attemptedMatches = new List<string>();
 	private bool autoMatch = false;
 	private NetworkConnection myConnection;
 	bool connected = false;
@@ -38,13 +38,13 @@ public class LobbyManager : NetworkManager {
 			if (matchList.matches [count - 1].currentSize < 2) {
 
 				bool skip = false;
-				foreach (MatchDesc match in attemptedMatches) {
-					if (matchList.matches [count - 1].networkId == match.networkId)
+				foreach (string matchID in attemptedMatches) {
+					if (matchList.matches [count - 1].networkId.ToString() == matchID)
 						skip = true;
 				}
 
 				if(!skip){
-					attemptedMatches.Add (matchList.matches [count - 1]);
+					attemptedMatches.Add (matchList.matches [count - 1].networkId.ToString());
 					matchMaker.JoinMatch (matchList.matches [count - 1].networkId, "", OnJoiningMatch);
 					return;
 				}
@@ -59,6 +59,12 @@ public class LobbyManager : NetworkManager {
 		matchMaker.CreateMatch(timestamp.ToString(), 2, true, "", OnMatchCreate);
 	}
 
+	public override void OnMatchCreate (CreateMatchResponse matchInfo)
+	{
+		attemptedMatches.Add (matchInfo.networkId.ToString());
+		base.OnMatchCreate (matchInfo);
+	}
+
 	public override void OnClientError (NetworkConnection conn, int errorCode)
 	{
 		base.OnClientError (conn, errorCode);
@@ -71,6 +77,7 @@ public class LobbyManager : NetworkManager {
 	}
 
 	void Update(){
+		Debug.Log(attemptedMatches.Count);
 		if (retryAt != 0f && retryAt < Time.time && autoMatch){
 			StartMatchMaker ();
 			CreateOrJoinMatch ();
@@ -79,7 +86,7 @@ public class LobbyManager : NetworkManager {
 	}
 
 	void OnJoiningMatch(JoinMatchResponse response){
-		Debug.Log ("On Joining Match");
+//		Debug.Log ("On Joining Match");
 //		Debug.Log (response);
 //		matchInfo = new MatchInfo (response);
 //		StartClient ();
@@ -91,7 +98,7 @@ public class LobbyManager : NetworkManager {
 
 	public override void OnStartServer ()
 	{
-		Debug.Log ("On Start Server");
+//		Debug.Log ("On Start Server");
 		base.OnStartServer ();
 		GameObject ga = (GameObject)Instantiate (networkController);
 		ga.name = networkController.name;
@@ -106,7 +113,7 @@ public class LobbyManager : NetworkManager {
 
 	public override void OnStartClient (NetworkClient client)
 	{
-		Debug.Log ("On Star Client");
+//		Debug.Log ("On Star Client");
 		base.OnStartClient (client);
 	}
 
@@ -125,7 +132,7 @@ public class LobbyManager : NetworkManager {
 			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am client";
 			ClientScene.Ready (conn);
 			connected = true;
-			ClientScene.AddPlayer (1);
+			ClientScene.AddPlayer (0);
 		}
 	}
 
@@ -138,18 +145,10 @@ public class LobbyManager : NetworkManager {
 		StopMatchMaker ();
 		StopHost ();
 		StopClient ();
-
-		Application.LoadLevel (Application.loadedLevel);
 	}
 
 	void OnDestroy(){
-		if (matchInfo != null && matchMaker != null) {
-			matchMaker.DestroyMatch (matchInfo.networkId, OnMatchDestoryed);
-			NetworkServer.Shutdown ();
-			StopMatchMaker ();
-			StopHost ();
-			StopClient ();
-		}
+		ExitMatchMaker ();
 	}
 
 	void OnMatchDestoryed(BasicResponse response){
