@@ -9,4 +9,9 @@ public class BallBubble : MonoBehaviour {
 		GetComponent<Rigidbody2D> ().AddForce (new Vector2(Mathf.Sin (angle), Mathf.Cos (angle)) * force);
 	
 	}
+
+	void GetPopped (){
+		Debug.Log ("adsdas");
+		Destroy (gameObject);
+	}
 }

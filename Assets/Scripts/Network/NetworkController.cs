@@ -8,9 +8,10 @@ public class NetworkController : NetworkBehaviour {
 	public static NetworkController instance;
 
 	[SyncVar]
-	bool matchStarted = false;
+	public bool matchStarted = false;
 
-	bool gameStarted = false;
+	public bool gameStarted = false;
+	public bool gameEnded = false;
 
 	public enum GameMode{
 		PvsP
@@ -68,6 +69,7 @@ public class NetworkController : NetworkBehaviour {
 	
 	[ClientRpc]
 	public void RpcVictory(NetworkInstanceId winId){
+		gameEnded = false;
 		if (NetworkPlayer.myPlayer.netId == winId) {
 			Iwin();
 		} else {
