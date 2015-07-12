@@ -21,4 +21,12 @@ public class CanvasGroups : MonoBehaviour {
 		Game = _Game;
 		Post = _Post;
 	}
+
+	void Start(){
+		Auto.SetActive (true);
+		Lobby.SetActive (false);
+		Room.SetActive (false);
+		Game.SetActive (false);
+		Post.SetActive (false);
+	}
 }

@@ -9,13 +9,14 @@ public class PvsPcontroller : NetworkBehaviour {
 
 	public void Setup(){
 		GameObject.Find ("WinButton").GetComponent<Button> ().onClick.AddListener(delegate{NetworkPlayer.myPlayer.CmdPvsPpops(1);});
-		GameObject.Instantiate (wallsPrefab, Vector3.zero, Quaternion.identity);
+		GameObject go = (GameObject) GameObject.Instantiate (wallsPrefab, Vector3.zero, Quaternion.identity);
+		go.transform.parent = NetworkController.instance.gameParent.transform;
 		SpawnBall ();
 	}
 
 	void SpawnBall(){
 		GameObject ball = (GameObject) GameObject.Instantiate(ballPrefab, Random.onUnitSphere, Quaternion.identity);
-		ball.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * 100);
+		ball.transform.parent = NetworkController.instance.gameParent.transform;
 	}
 
 	[ClientRpc]

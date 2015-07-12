@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class NetworkController : NetworkBehaviour {
-
+	public GameObject gameParent;
 	public static NetworkController instance;
 
 	[SyncVar]
@@ -30,6 +30,7 @@ public class NetworkController : NetworkBehaviour {
 
 	void Start(){
 		instance = this;
+		gameParent = GameObject.Find ("GameParent");
 		remainingTimeText = GameObject.Find ("RemainingTimeText").GetComponent<Text> ();
 	}
 
@@ -75,11 +76,15 @@ public class NetworkController : NetworkBehaviour {
 	}
 
 	void Iwin(){
-		Debug.Log ("Victory");
+		CanvasGroups.Game.SetActive (false);
+		CanvasGroups.Post.SetActive (true);
+		GameObject.Find ("OutcomeText").GetComponent<Text> ().text = "You've won!";
 	}
 
 	void Ilose(){
-		Debug.Log ("Defeat");
+		CanvasGroups.Game.SetActive (false);
+		CanvasGroups.Post.SetActive (true);
+		GameObject.Find ("OutcomeText").GetComponent<Text> ().text = "You've lost!";
 	}
 
 
