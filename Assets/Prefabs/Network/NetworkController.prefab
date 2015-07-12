@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 424346}
   - 114: {fileID: 11425196}
+  - 114: {fileID: 11431642}
+  - 114: {fileID: 11412080}
   m_Layer: 0
   m_Name: NetworkController
   m_TagString: Untagged
@@ -28,6 +30,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11412080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168254}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cfde5258ceffee46b47e500ed420872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallsPrefab: {fileID: 150644, guid: c258577dc1b278b4796575c8a8a55861, type: 2}
 --- !u!114 &11425196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -42,24 +56,39 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 32
+    i1: 11
+    i2: 216
+    i3: 181
+    i4: 244
+    i5: 135
+    i6: 185
+    i7: 4
+    i8: 216
+    i9: 130
+    i10: 236
+    i11: 234
+    i12: 226
+    i13: 218
+    i14: 210
+    i15: 21
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &11431642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b7503d0fd20664e875379017db4cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMode: 0
+  gameTime: 0
+  timeSyncInterval: .200000003
+  waitTime: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -75,6 +104,18 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPlayerAuthority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallsPrefab
+      value: 
+      objectReference: {fileID: 150644, guid: c258577dc1b278b4796575c8a8a55861, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168254}

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class LobbyManager : NetworkManager {
 	public GameObject networkController;
 
+	GameObject networkObject;
+
 	List<string> attemptedMatches = new List<string>();
 	private bool autoMatch = false;
 	private NetworkConnection myConnection;
@@ -77,7 +79,6 @@ public class LobbyManager : NetworkManager {
 	}
 
 	void Update(){
-		Debug.Log(attemptedMatches.Count);
 		if (retryAt != 0f && retryAt < Time.time && autoMatch){
 			StartMatchMaker ();
 			CreateOrJoinMatch ();
@@ -100,15 +101,16 @@ public class LobbyManager : NetworkManager {
 	{
 //		Debug.Log ("On Start Server");
 		base.OnStartServer ();
-		GameObject ga = (GameObject)Instantiate (networkController);
-		ga.name = networkController.name;
-		NetworkServer.Spawn (ga);
+		networkObject = (GameObject)Instantiate (networkController);
+		networkObject.name = networkController.name;
+		NetworkServer.Spawn (networkObject);
 	}
 	
 	public override void OnServerConnect (NetworkConnection conn)
 	{
 		base.OnServerConnect (conn);
-		GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am server + enemy";
+		GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Connected(S)";
+		networkObject.BroadcastMessage ("StartMatch");
 	}
 
 	public override void OnStartClient (NetworkClient client)
@@ -122,14 +124,14 @@ public class LobbyManager : NetworkManager {
 		base.OnServerConnect (conn);
 		myConnection = conn;
 		if (NetworkServer.active) {
-			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am server";
+			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Waiting for players";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
 		}
 		else
 		{
-			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Am client";
+			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Connected(C)";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
