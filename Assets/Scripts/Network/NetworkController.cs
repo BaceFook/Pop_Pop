@@ -125,8 +125,7 @@ public class NetworkController : NetworkBehaviour {
 	}
 
 	public void Rematch(){
-		if (!NetworkPlayer.myPlayer.rematch)
-			NetworkPlayer.myPlayer.CmdRematch ();
+		NetworkPlayer.myPlayer.CmdRematch ();
 	}
 
 	[ClientRpc]

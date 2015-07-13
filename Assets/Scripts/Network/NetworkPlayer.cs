@@ -42,6 +42,7 @@ public class NetworkPlayer : NetworkBehaviour {
 	public void CmdRematch(){
 		if (OtherPlayer ().rematch) {
 			NetworkController.instance.RpcRematch();
+			return;
 		}
 		OnRematch(true);
 	}
