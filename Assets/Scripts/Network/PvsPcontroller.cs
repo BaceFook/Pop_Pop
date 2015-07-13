@@ -7,6 +7,8 @@ public class PvsPcontroller : NetworkBehaviour {
 	public GameObject wallsPrefab;
 	public GameObject ballPrefab;
 
+	public int bubblesToLose = 10;
+
 	public float roomWidth = 40f;
 	public float roomHeight = 20f;
 
@@ -20,6 +22,7 @@ public class PvsPcontroller : NetworkBehaviour {
 		go.transform.parent = NetworkController.instance.gameParent.transform;
 		go.GetComponent<WallScript> ().SetSize (roomWidth, roomHeight);
 		SpawnBall ();
+		GameObject.Find ("BubblesText").GetComponent<Text> ().text = "1";
 	}
 
 	void SpawnBall(){
@@ -50,9 +53,9 @@ public class PvsPcontroller : NetworkBehaviour {
 	}
 
 	void CheckForVictory(){
-		if (NetworkPlayer.myPlayer.bubbles >= 100)
+		if (NetworkPlayer.myPlayer.bubbles >= bubblesToLose)
 			NetworkController.instance.RpcVictory (NetworkPlayer.enemyPlayer.netId);
-		else if (NetworkPlayer.enemyPlayer.bubbles >= 100)
+		else if (NetworkPlayer.enemyPlayer.bubbles >= bubblesToLose)
 			NetworkController.instance.RpcVictory (NetworkPlayer.myPlayer.netId);
 
 	}

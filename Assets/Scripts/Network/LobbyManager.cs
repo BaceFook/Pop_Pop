@@ -7,14 +7,18 @@ using UnityEngine.UI;
 
 public class LobbyManager : NetworkManager {
 	public GameObject networkController;
+	public static LobbyManager instance;
 
 	GameObject networkObject;
 
 	List<string> attemptedMatches = new List<string>();
 	private bool autoMatch = false;
-	private NetworkConnection myConnection;
 	bool connected = false;
 	float retryAt = 0f;
+
+	void Awake(){
+		instance = this;
+	}
 
 	void Start () {
 		PlayerPrefs.SetString ("CloudNetworkingId", "124152");
@@ -122,7 +126,6 @@ public class LobbyManager : NetworkManager {
 	public override void OnClientConnect (NetworkConnection conn)
 	{
 		base.OnServerConnect (conn);
-		myConnection = conn;
 		if (NetworkServer.active) {
 			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Waiting for players";
 			ClientScene.Ready (conn);

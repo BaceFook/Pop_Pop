@@ -78,23 +78,25 @@ public class NetworkController : NetworkBehaviour {
 	
 	[ClientRpc]
 	public void RpcVictory(NetworkInstanceId winId){
-		gameEnded = false;
+		gameEnded = true;
 		if (NetworkPlayer.myPlayer.netId == winId) {
 			Iwin();
 		} else {
 			Ilose();
 		}
+		GameObject.Find ("LeaveButton").GetComponentInChildren<Text>().text = "Leave.";
+		GameObject.Find ("RematchButton").GetComponentInChildren<Text>().text = "Rematch!";
 	}
 
 	void Iwin(){
-		CanvasGroups.Game.SetActive (false);
-		CanvasGroups.Post.SetActive (true);
+		MultiplayerMenu.Game.SetActive (false);
+		MultiplayerMenu.Post.SetActive (true);
 		GameObject.Find ("OutcomeText").GetComponent<Text> ().text = "You've won!";
 	}
 
 	void Ilose(){
-		CanvasGroups.Game.SetActive (false);
-		CanvasGroups.Post.SetActive (true);
+		MultiplayerMenu.Game.SetActive (false);
+		MultiplayerMenu.Post.SetActive (true);
 		GameObject.Find ("OutcomeText").GetComponent<Text> ().text = "You've lost!";
 	}
 
@@ -102,9 +104,44 @@ public class NetworkController : NetworkBehaviour {
 	[ClientRpc]
 	void RpcStartGame(){
 		gameStarted = true;
-		CanvasGroups.Room.SetActive (false);
-		CanvasGroups.Game.SetActive (true);
+		MultiplayerMenu.Room.SetActive (false);
+		MultiplayerMenu.Game.SetActive (true);
 		GetComponent<PvsPcontroller> ().enabled = true;
 		GetComponent<PvsPcontroller> ().Setup ();
+	}
+
+	public void LeaveMatch(){
+		Camera.main.GetComponent<MultitouchMovement> ().enabled = false;
+		Camera.main.transform.position = Vector3.zero;
+		foreach (Transform child in gameParent.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		LobbyManager.instance.ExitMatchMaker ();
+		
+		MultiplayerMenu.Post.SetActive (false);
+		MultiplayerMenu.Game.SetActive (false);
+		MultiplayerMenu.Auto.SetActive (true);
+	}
+
+	public void Rematch(){
+		if (!NetworkPlayer.myPlayer.rematch)
+			NetworkPlayer.myPlayer.CmdRematch ();
+	}
+
+	[ClientRpc]
+	public void RpcRematch(){
+		if(NetworkServer.active)
+			StartMatch ();
+		gameStarted = false;
+		gameEnded = false;
+		foreach (Transform child in gameParent.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		NetworkPlayer.myPlayer.Restart ();
+		NetworkPlayer.enemyPlayer.Restart ();
+
+		MultiplayerMenu.Post.SetActive (false);
+		MultiplayerMenu.Game.SetActive (false);
+		MultiplayerMenu.Room.SetActive (true);
 	}
 }

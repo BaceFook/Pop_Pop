@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class gameInitiator : MonoBehaviour {
 
-	private int groupNum = 0;
 	private GameObject bubblesParent;
 
 	public int bubblesX = 10;
@@ -220,8 +219,8 @@ public class gameInitiator : MonoBehaviour {
 			}
 			
 			if (!bubbleArray[tmp + i * bubblesX].GetComponent<bubbleState>().isPopped){
-				break;
 				skip = true;
+				break;
 			}
 		}
 
