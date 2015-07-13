@@ -103,6 +103,7 @@ public class NetworkController : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcStartGame(){
+		Camera.main.transform.position = new Vector3 (0f, 0f, -10f);
 		gameStarted = true;
 		MultiplayerMenu.Room.SetActive (false);
 		MultiplayerMenu.Game.SetActive (true);

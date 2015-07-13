@@ -10,7 +10,7 @@ public class MultitouchMovement : MonoBehaviour {
 
 	Vector2 startPoint = Vector2.zero;
 	Vector2 mouseStart = Vector2.zero;
-	Vector3 initialPosition = Vector3.zero;
+	Vector3 initialPosition = new Vector3 (0f, 0f, -10f);
 
 	void Start(){
 		initialPosition = transform.localPosition;
