@@ -11,7 +11,8 @@ public class BallBubble : MonoBehaviour {
 	}
 
 	void GetPopped (){
-		Debug.Log ("adsdas");
+		if(NetworkController.instance.currentMode == NetworkController.GameMode.PvsP)
+			NetworkPlayer.myPlayer.CmdPvsPpops (1);
 		Destroy (gameObject);
 	}
 }

@@ -7,20 +7,25 @@ public class PvsPcontroller : NetworkBehaviour {
 	public GameObject wallsPrefab;
 	public GameObject ballPrefab;
 
+	public float roomWidth = 40f;
+	public float roomHeight = 20f;
+
 	Vector3 lastPoint;
 	LayerMask bubbleMask;
 
 	public void Setup(){
 		bubbleMask = LayerMask.GetMask ("Bubbles");
 
-		GameObject.Find ("WinButton").GetComponent<Button> ().onClick.AddListener(delegate{NetworkPlayer.myPlayer.CmdPvsPpops(1);});
 		GameObject go = (GameObject) GameObject.Instantiate (wallsPrefab, Vector3.zero, Quaternion.identity);
 		go.transform.parent = NetworkController.instance.gameParent.transform;
+		go.GetComponent<WallScript> ().SetSize (roomWidth, roomHeight);
 		SpawnBall ();
 	}
 
 	void SpawnBall(){
-		GameObject ball = (GameObject) GameObject.Instantiate(ballPrefab, Random.onUnitSphere, Quaternion.identity);
+		Vector2 tmp = Random.insideUnitCircle * 5f;
+
+		GameObject ball = (GameObject) GameObject.Instantiate(ballPrefab, new Vector3(tmp.x, tmp.y, 0f), Quaternion.identity);
 		ball.transform.parent = NetworkController.instance.gameParent.transform;
 	}
 
@@ -64,15 +69,13 @@ public class PvsPcontroller : NetworkBehaviour {
 		}
 
 		if (point.magnitude > float.Epsilon) {
-			Debug.Log ((Vector2)point);
 			if (lastPoint.magnitude < float.Epsilon)
 				lastPoint = point;
-			RaycastHit2D[] hits = Physics2D.LinecastAll ((Vector2)point, (Vector2)lastPoint, bubbleMask.value);
-			if (hits.Length > 0)
-				NetworkPlayer.myPlayer.CmdPvsPpops (hits.Length);
-			foreach (RaycastHit2D hit in hits) {
+			RaycastHit2D hit = Physics2D.Linecast ((Vector2)point, (Vector2)lastPoint, bubbleMask.value);
+			if (hit.transform != null){
 				hit.transform.BroadcastMessage ("GetPopped");
 			}
+
 			lastPoint = point;
 		} else {
 			lastPoint = Vector3.zero;

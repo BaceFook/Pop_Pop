@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class multitouchMovement : MonoBehaviour {
+public class MultitouchMovement : MonoBehaviour {
 	public float topBorder = 0.0f;
 	public float rightBorder = 0.0f;
 	public float bottomBorder = 0.0f;

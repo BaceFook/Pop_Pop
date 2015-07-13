@@ -7,10 +7,11 @@ public class NetworkController : NetworkBehaviour {
 	public GameObject gameParent;
 	public static NetworkController instance;
 
-	[SyncVar]
+	[SyncVar,HideInInspector]
 	public bool matchStarted = false;
-
+	[HideInInspector]
 	public bool gameStarted = false;
+	[HideInInspector]
 	public bool gameEnded = false;
 
 	public enum GameMode{
@@ -24,8 +25,8 @@ public class NetworkController : NetworkBehaviour {
 	public float gameTime = 0f;
 	float gameStart;
 	float lastTimeSync;
-	public float timeSyncInterval = 0.2f;
-	public float waitTime = 1f;
+	public float timeSyncInterval = 0.4f;
+	public float waitTime = 5f;
 
 	Text remainingTimeText;
 
@@ -50,12 +51,20 @@ public class NetworkController : NetworkBehaviour {
 				OnSyncTime (Time.realtimeSinceStartup - gameStart);
 			if (Time.realtimeSinceStartup - gameStart > waitTime && !gameStarted)
 				RpcStartGame();
+
 		} else {
 			OnSyncTime(gameTime + Time.realtimeSinceStartup - lastTimeSync);
 		}
 
 		if(!gameStarted)
-			remainingTimeText.text = (waitTime - gameTime).ToString ("F1");
+			remainingTimeText.text = (waitTime - GameTime()).ToString ("F1");
+	}
+
+	public float GameTime(){
+		if (NetworkServer.active)
+			return Time.realtimeSinceStartup - gameStart;
+		else
+			return gameTime;
 	}
 
 	void OnSyncTime(float time){

@@ -55,7 +55,7 @@ public class gameInitiator : MonoBehaviour {
 		float startX = -1.0f * (bubblesX-1);
 		float startY = -1.0f * (bubblesY-1);
 
-		multitouchMovement cameraMovement = Camera.main.GetComponent<multitouchMovement> ();
+		MultitouchMovement cameraMovement = Camera.main.GetComponent<MultitouchMovement> ();
 		float cameraSize = Camera.main.orthographicSize;
 		tmpf = Mathf.Max (bubblesY - cameraSize, 0);
 		cameraMovement.topBorder = tmpf;		

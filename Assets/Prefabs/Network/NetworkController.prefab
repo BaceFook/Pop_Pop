@@ -86,10 +86,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7503d0fd20664e875379017db4cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameParent: {fileID: 0}
+  matchStarted: 0
+  gameStarted: 0
+  gameEnded: 0
   currentMode: 0
   gameTime: 0
-  timeSyncInterval: .200000003
-  waitTime: 1
+  timeSyncInterval: .400000006
+  waitTime: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -123,7 +127,11 @@ Prefab:
       objectReference: {fileID: 179354, guid: 91fd960aaa564b3408a582895926d109, type: 2}
     - target: {fileID: 0}
       propertyPath: waitTime
-      value: 1
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeSyncInterval
+      value: .400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
