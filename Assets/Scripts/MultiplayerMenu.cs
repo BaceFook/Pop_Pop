@@ -23,6 +23,10 @@ public class MultiplayerMenu : MonoBehaviour {
 	}
 	
 	void Start(){
+		ToAuto ();
+	}
+
+	public static void ToAuto(){
 		Auto.SetActive (true);
 		Lobby.SetActive (false);
 		Room.SetActive (false);

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class LobbyManager : NetworkManager {
 	public GameObject networkController;
 	public static LobbyManager instance;
+	public GameObject statusLabel;
+
+	public static bool matchStarted = false;
 
 	GameObject networkObject;
 
@@ -25,10 +28,12 @@ public class LobbyManager : NetworkManager {
 	}
 
 	public void AutoFindMatch(){
+		MultiplayerMessage.instance.Hide ();
 		retryAt = 0f;
 		autoMatch = true;
 		StartMatchMaker ();
 		CreateOrJoinMatch ();
+		statusLabel.GetComponent<Text>().text = "Connecting";
 	}
 
 	void CreateOrJoinMatch(){
@@ -73,6 +78,7 @@ public class LobbyManager : NetworkManager {
 
 	public override void OnClientError (NetworkConnection conn, int errorCode)
 	{
+		Debug.Log ("OnClientError");
 		base.OnClientError (conn, errorCode);
 		if (connected || !autoMatch) {
 			return;
@@ -113,8 +119,9 @@ public class LobbyManager : NetworkManager {
 	public override void OnServerConnect (NetworkConnection conn)
 	{
 		base.OnServerConnect (conn);
-		GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Connected(S)";
+		statusLabel.GetComponent<Text>().text = "Connected(S)";
 		networkObject.BroadcastMessage ("StartMatch");
+		matchStarted = true;
 	}
 
 	public override void OnStartClient (NetworkClient client)
@@ -127,17 +134,18 @@ public class LobbyManager : NetworkManager {
 	{
 		base.OnServerConnect (conn);
 		if (NetworkServer.active) {
-			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Waiting for players";
+			statusLabel.GetComponent<Text>().text = "Waiting for players";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
 		}
 		else
 		{
-			GameObject.Find ("StatusLabel").GetComponentInChildren<Text>().text = "Connected(C)";
+			statusLabel.GetComponent<Text>().text = "Connected(C)";
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
+			matchStarted = true;
 		}
 	}
 
@@ -150,6 +158,8 @@ public class LobbyManager : NetworkManager {
 		StopMatchMaker ();
 		StopHost ();
 		StopClient ();
+		matchStarted = false;
+		MultiplayerMenu.ToAuto ();
 	}
 
 	void OnDestroy(){
@@ -158,5 +168,30 @@ public class LobbyManager : NetworkManager {
 
 	void OnMatchDestoryed(BasicResponse response){
 
+	}
+
+	void Disconnection(){
+		if (matchStarted || GameObject.Find ("GameParent").transform.childCount > 0) {
+			foreach (Transform child in GameObject.Find ("GameParent").transform) {
+				GameObject.Destroy (child.gameObject);
+			}
+			MultiplayerMessage.instance.Show ();
+			Camera.main.GetComponent<MultitouchMovement> ().enabled = false;
+			ExitMatchMaker ();
+		}
+	}
+
+	public override void OnServerDisconnect (NetworkConnection conn)
+	{
+		Debug.Log ("OnServerDisconnect");
+		Disconnection ();
+		base.OnServerDisconnect (conn);
+	}
+
+	public override void OnClientDisconnect (NetworkConnection conn)
+	{
+		Debug.Log ("OnClientDisconnect");
+		Disconnection ();
+		base.OnClientDisconnect (conn);
 	}
 }
