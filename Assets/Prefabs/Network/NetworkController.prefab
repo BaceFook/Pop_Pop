@@ -43,6 +43,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallsPrefab: {fileID: 150644, guid: c258577dc1b278b4796575c8a8a55861, type: 2}
   ballPrefab: {fileID: 179354, guid: 91fd960aaa564b3408a582895926d109, type: 2}
+  bubblesToLose: 10
+  roomWidth: 40
+  roomHeight: 20
 --- !u!114 &11425196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,11 +92,14 @@ MonoBehaviour:
   gameParent: {fileID: 0}
   matchStarted: 0
   gameStarted: 0
+  gameLocked: 0
   gameEnded: 0
   currentMode: 0
+  swipeEnabled: 0
   gameTime: 0
   timeSyncInterval: .400000006
-  waitTime: 5
+  waitTime: 10
+  lockTime: 7
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -127,11 +133,15 @@ Prefab:
       objectReference: {fileID: 179354, guid: 91fd960aaa564b3408a582895926d109, type: 2}
     - target: {fileID: 0}
       propertyPath: waitTime
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: timeSyncInterval
       value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lockTime
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

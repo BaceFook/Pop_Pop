@@ -145,6 +145,7 @@ public class LobbyManager : NetworkManager {
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
+			networkObject.BroadcastMessage ("StartMatch");
 			matchStarted = true;
 		}
 	}

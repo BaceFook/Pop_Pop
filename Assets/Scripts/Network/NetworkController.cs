@@ -12,6 +12,8 @@ public class NetworkController : NetworkBehaviour {
 	[HideInInspector]
 	public bool gameStarted = false;
 	[HideInInspector]
+	public bool gameLocked = false;
+	[HideInInspector]
 	public bool gameEnded = false;
 
 	public enum GameMode{
@@ -21,12 +23,16 @@ public class NetworkController : NetworkBehaviour {
 	[SyncVar(hook="OnSyncMode")]
 	public GameMode currentMode = GameMode.PvsP;
 
+	[SyncVar(hook="OnSyncSwipeEnabled")]
+	public bool swipeEnabled = false;
+
 	[SyncVar(hook="OnSyncTime")]
 	public float gameTime = 0f;
 	float gameStart;
 	float lastTimeSync;
 	public float timeSyncInterval = 0.4f;
-	public float waitTime = 5f;
+	public float waitTime = 10f;
+	public float lockTime = 7f;
 
 	Text remainingTimeText;
 
@@ -37,6 +43,7 @@ public class NetworkController : NetworkBehaviour {
 	}
 
 	void StartMatch(){
+		MultiplayerMenu.ModeButtons.SetActive (true);
 		matchStarted = true;
 		gameStart = Time.realtimeSinceStartup;
 	}
@@ -51,6 +58,8 @@ public class NetworkController : NetworkBehaviour {
 				OnSyncTime (Time.realtimeSinceStartup - gameStart);
 			if (Time.realtimeSinceStartup - gameStart > waitTime && !gameStarted)
 				RpcStartGame();
+			if (Time.realtimeSinceStartup - gameStart > lockTime && !gameLocked)
+				LockGame();
 
 		} else {
 			OnSyncTime(gameTime + Time.realtimeSinceStartup - lastTimeSync);
@@ -59,6 +68,19 @@ public class NetworkController : NetworkBehaviour {
 		if(!gameStarted)
 			remainingTimeText.text = (waitTime - GameTime()).ToString ("F1");
 	}
+
+	void LockGame(){
+		OnSyncSwipeEnabled(Random.Range(0, 2) == 0 ? NetworkPlayer.myPlayer.swipeEnabled : NetworkPlayer.enemyPlayer.swipeEnabled);
+		RpcLockGame (swipeEnabled, currentMode);
+		gameLocked = true;
+	}
+	
+	[ClientRpc]
+	void RpcLockGame(bool se, GameMode gm){
+		MultiplayerMenu.ModeButtons.SetActive (false);
+		GameObject.Find ("GameModeInfo").GetComponent<Text>().text = (se ? "Swipe to " : "Tap to ") + "Pop vs Pop";
+	}
+
 
 	public float GameTime(){
 		if (NetworkServer.active)
@@ -74,6 +96,10 @@ public class NetworkController : NetworkBehaviour {
 
 	void OnSyncMode(GameMode mode){
 		currentMode = mode;
+	}
+
+	void OnSyncSwipeEnabled(bool se){
+		swipeEnabled = se;
 	}
 	
 	[ClientRpc]
@@ -99,8 +125,7 @@ public class NetworkController : NetworkBehaviour {
 		MultiplayerMenu.Post.SetActive (true);
 		GameObject.Find ("OutcomeText").GetComponent<Text> ().text = "You've lost!";
 	}
-
-
+	
 	[ClientRpc]
 	void RpcStartGame(){
 		Camera.main.transform.position = new Vector3 (0f, 0f, -10f);
@@ -130,10 +155,13 @@ public class NetworkController : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcRematch(){
+		MultiplayerMenu.ModeButtons.SetActive (true);
+		
 		if(NetworkServer.active)
 			StartMatch ();
 		gameStarted = false;
 		gameEnded = false;
+		gameLocked = false;
 		foreach (Transform child in gameParent.transform) {
 			GameObject.Destroy(child.gameObject);
 		}

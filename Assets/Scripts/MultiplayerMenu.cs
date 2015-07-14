@@ -7,12 +7,14 @@ public class MultiplayerMenu : MonoBehaviour {
 	public static GameObject Room;
 	public static GameObject Game;
 	public static GameObject Post;
+	public static GameObject ModeButtons;
 	
 	public GameObject _Auto;
 	public GameObject _Lobby;
 	public GameObject _Room;
 	public GameObject _Game;
 	public GameObject _Post;
+	public GameObject _ModeButtons;
 	
 	void Awake(){
 		Auto = _Auto;
@@ -20,6 +22,7 @@ public class MultiplayerMenu : MonoBehaviour {
 		Room = _Room;
 		Game = _Game;
 		Post = _Post;
+		ModeButtons = _ModeButtons;
 	}
 	
 	void Start(){
