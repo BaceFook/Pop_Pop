@@ -4317,6 +4317,7 @@ MonoBehaviour:
   matchSize: 4
   networkController: {fileID: 168254, guid: 200bd8b5f487b904d882eceae2dad215, type: 2}
   statusLabel: {fileID: 831579278}
+  networkObject: {fileID: 0}
 --- !u!4 &1948641728
 Transform:
   m_ObjectHideFlags: 0

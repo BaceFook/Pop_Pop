@@ -12,11 +12,8 @@ public class PvsPcontroller : NetworkBehaviour {
 	public float roomWidth = 40f;
 	public float roomHeight = 20f;
 
-	Vector3 lastPoint;
-	LayerMask bubbleMask;
 
 	public void Setup(){
-		bubbleMask = LayerMask.GetMask ("Bubbles");
 
 		GameObject go = (GameObject) GameObject.Instantiate (wallsPrefab, Vector3.zero, Quaternion.identity);
 		go.transform.parent = NetworkController.instance.gameParent.transform;
@@ -58,30 +55,5 @@ public class PvsPcontroller : NetworkBehaviour {
 		else if (NetworkPlayer.enemyPlayer.bubbles >= bubblesToLose)
 			NetworkController.instance.RpcVictory (NetworkPlayer.myPlayer.netId);
 
-	}
-
-	void Update(){
-		if (NetworkController.instance.gameEnded)
-			return;
-
-		Vector3 point = Vector3.zero;
-		if (Input.GetMouseButton (0)) {
-			point = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		}  else if(Input.touchCount > 0) {
-			point = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-		}
-
-		if (point.magnitude > float.Epsilon) {
-			if (lastPoint.magnitude < float.Epsilon)
-				lastPoint = point;
-			RaycastHit2D hit = Physics2D.Linecast ((Vector2)point, (Vector2)lastPoint, bubbleMask.value);
-			if (hit.transform != null){
-				hit.transform.BroadcastMessage ("GetPopped");
-			}
-
-			lastPoint = point;
-		} else {
-			lastPoint = Vector3.zero;
-		}
 	}
 }

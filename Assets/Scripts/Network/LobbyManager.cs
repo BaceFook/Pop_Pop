@@ -12,7 +12,8 @@ public class LobbyManager : NetworkManager {
 
 	public static bool matchStarted = false;
 
-	GameObject networkObject;
+	[HideInInspector]
+	public GameObject networkObject;
 
 	List<string> attemptedMatches = new List<string>();
 	private bool autoMatch = false;
@@ -145,7 +146,6 @@ public class LobbyManager : NetworkManager {
 			ClientScene.Ready (conn);
 			connected = true;
 			ClientScene.AddPlayer (0);
-			networkObject.BroadcastMessage ("StartMatch");
 			matchStarted = true;
 		}
 	}
@@ -160,6 +160,7 @@ public class LobbyManager : NetworkManager {
 		StopHost ();
 		StopClient ();
 		matchStarted = false;
+		connected = false;
 		MultiplayerMenu.ToAuto ();
 	}
 

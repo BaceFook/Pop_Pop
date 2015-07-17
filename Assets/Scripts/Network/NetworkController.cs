@@ -40,6 +40,11 @@ public class NetworkController : NetworkBehaviour {
 		instance = this;
 		gameParent = GameObject.Find ("GameParent");
 		remainingTimeText = GameObject.Find ("RemainingTimeText").GetComponent<Text> ();
+		if (LobbyManager.instance.networkObject == null)
+			LobbyManager.instance.networkObject = gameObject;
+
+		if (!NetworkServer.active)
+			StartMatch ();
 	}
 
 	void StartMatch(){
